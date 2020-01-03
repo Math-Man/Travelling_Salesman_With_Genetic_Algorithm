@@ -1,6 +1,6 @@
 class Agent:
 
-    localeOrder = [];
+    localeSequence = [];
     distanceTravelled = 0;
     score = 0;
 
