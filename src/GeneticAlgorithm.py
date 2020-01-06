@@ -5,7 +5,7 @@ class GeneticAlgorithm:
 
  #Agents are individuals that makes up populations.
 
- #Agents have their DNA as 'localeSequence', fitness as ln(x) * (100) floored to significance of 2
+ #Agents have their DNA as 'localeSequence', fitness (score) as 1/(x)^2 , x being sum of total distance traveled.
  #This allows for an exponentially increasing score for lower distance travelled.
 
  #DNA is made up of two main parts:
@@ -46,7 +46,7 @@ class GeneticAlgorithm:
         for i in range(self.POPULATION_SIZE):
             self.currentGeneration[i] = agentBuilder.randomAgent(len(self.rawData)); #Use agent builder to build random agents
         return;
-        #apply weighted random selection
+
 
     #builds nextGeneration
     def BuildNextGeneration(self):
@@ -57,7 +57,8 @@ class GeneticAlgorithm:
 
     #weighted random selection alghorithm depending on the score of the agents
     def selection(self):
-        print(self.currentGeneration[0].localeSequence)
+        #print(self.currentGeneration[0].localeSequence)
+        print(self.currentGeneration[0].calculateScore(self.rawData));
         return;
 
     def crossOver(self):
@@ -67,8 +68,12 @@ class GeneticAlgorithm:
         return;
 
     def replaceCurrentGeneration(self):
+        self.currentGeneration = self.newGeneration;
+        self.newGeneration = [0]*self.POPULATION_SIZE;
         return;
 
+
+    #entry
     def __init__(self, data):
 
         self.currentGeneration = [0]*self.POPULATION_SIZE; #list with size POPULATION_SIZE
