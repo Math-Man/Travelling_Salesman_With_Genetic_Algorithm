@@ -48,16 +48,25 @@ class GeneticAlgorithm:
         return;
         #apply weighted random selection
 
+    #builds nextGeneration
     def BuildNextGeneration(self):
+        self.selection();
+        self.crossOver();
+        self.mutation();
         return;
 
+    #weighted random selection alghorithm depending on the score of the agents
     def selection(self):
+        print(self.currentGeneration[0].localeSequence)
         return;
 
     def crossOver(self):
         return;
 
     def mutation(self):
+        return;
+
+    def replaceCurrentGeneration(self):
         return;
 
     def __init__(self, data):

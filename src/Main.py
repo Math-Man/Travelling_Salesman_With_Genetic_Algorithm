@@ -7,9 +7,9 @@ def main():
     data = csvReader("Data1.csv");
     #print(getDistanceFor(1, 10, data));
     genAlg = GeneticAlgorithm(data);
+    genAlg.BuildNextGeneration();
 
-
-
+#menu loop function
 def menu():
     print("Select Dataset... etc");
 
@@ -25,7 +25,7 @@ def csvReader(fileName):
     return data;
 
 
-#Get distance from distance matrix
+#Get distance from distance matrix, utility
 def getDistanceFor(l1, l2, data):
     if (l1 > 0 and l2 > 0 and l1 < len(data[0]) and l2 < len(data)):
         return data[l1][l2];

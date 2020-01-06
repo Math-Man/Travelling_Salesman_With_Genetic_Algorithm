@@ -1,5 +1,6 @@
 import random;
 
+
 class Agent:
 
     localeSequence = [];
@@ -17,6 +18,15 @@ class Agent:
         print("");
 
 
+    #Get distance from distance matrix, utility (copy from main)
+    def getDistance(l1, l2, data):
+        if (l1 > 0 and l2 > 0 and l1 < len(data[0]) and l2 < len    (data)):
+            return data[l1][l2];
+        else:
+            return -1;
+
+
+
 class RandomAgentBuilder:
 
     def randomAgent(self, sequenceLength):
@@ -24,5 +34,5 @@ class RandomAgentBuilder:
         for i in range(0, sequenceLength):
             a.localeSequence[i] = i;
         random.shuffle( a.localeSequence );
-        print(a.localeSequence);
-        return self
+        #print(a.localeSequence);
+        return a;
