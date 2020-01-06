@@ -1,24 +1,38 @@
 from Locale import Locale;
+from GeneticAlgorithm import GeneticAlgorithm;
 import csv;
 
+
 def main():
-    print("Hello World!")
-    a1 = Locale(0,0);
-    a2 = Locale(3,4);
-    print(a1.calcDistanceFromLocale(a2));
-    data = csvReader();
-    print(data);
+    data = csvReader("Data1.csv");
+    #print(getDistanceFor(1, 10, data));
+    genAlg = GeneticAlgorithm(data);
+
+
 
 def menu():
     print("Select Dataset... etc");
 
-def csvReader():
-    datafile = open('data/Data1.csv','r');
+
+#reads data file (converted to .csv file)
+#data file should be outside src folder within a data folder
+def csvReader(fileName):
+    datafile = open('data/' + fileName,'r'); #'Data1.csv'
     datareader= csv.reader(datafile, delimiter=';');
     data = [];
     for row in datareader:
         data.append(row);
     return data;
+
+
+#Get distance from distance matrix
+def getDistanceFor(l1, l2, data):
+    if (l1 > 0 and l2 > 0 and l1 < len(data[0]) and l2 < len(data)):
+        return data[l1][l2];
+    else:
+        return -1;
+
+
 
 
 if __name__ == "__main__":

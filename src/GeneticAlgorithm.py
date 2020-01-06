@@ -1,4 +1,7 @@
-def GeneticAlgorithm:
+from Agent import Agent;
+from Agent import RandomAgentBuilder;
+
+class GeneticAlgorithm:
 
  #Agents are individuals that makes up populations.
 
@@ -11,33 +14,56 @@ def GeneticAlgorithm:
 
  #initial selection is random sequence of locale with no bias and a random starting locale
 
- #selectin is done using weighted random selection depending on the agent's score
+ #selection is done using weighted random selection depending on the agent's score
 
  #crossover is done without bias, randomly switching targeted locale for at an index
  #crossover happens for each index of the localesequence 50% chance for either parent's item to be selected
  #crossover chance depends on the global variable of this class 'CROSSOVER_CHANCE'
 
+#mutation has a chance of occuring "MUTATION_RATE"
+#mutation strength effects the percantage of the DNA that is going to be mutated
+#0.1 mutation strength will result in 10% of the DNA getting shuffled randomly without bias
+#mutation strength will always round up, example: 0.00000000001% will result in a single mutation for an agent
 
-    POPULATION_SIZE = 25;
+#new generation is built by the consecutive events of selection->crossover->mutation for each agent
+
+    ##PARAMETERS##
     MAX_GENERATION = 9999;
-    MUTATION_RATE = 0.1;
-    MUTATION_STRENGTH = 1;
+    POPULATION_SIZE = 25;
+    MUTATION_RATE = 0.05;
+    MUTATION_STRENGTH = 0.05;
+    CROSSOVER_CHANCE = 0.5;
+    ##PARAMETERS##
 
+    rawData = [];
     currentGeneration = [];
     newGeneration = [];
-    rawData = [];
+
+
+    #random population
+    def buildInitialPopulation(self):
+        agentBuilder = RandomAgentBuilder();
+        for i in range(self.POPULATION_SIZE):
+            self.currentGeneration[i] = agentBuilder.randomAgent(len(self.rawData)); #Use agent builder to build random agents
+        return;
+        #apply weighted random selection
+
+    def BuildNextGeneration(self):
+        return;
+
+    def selection(self):
+        return;
+
+    def crossOver(self):
+        return;
+
+    def mutation(self):
+        return;
 
     def __init__(self, data):
-        rawData = data;
 
+        self.currentGeneration = [0]*self.POPULATION_SIZE; #list with size POPULATION_SIZE
+        self.newGeneration = [0]*self.POPULATION_SIZE; #list with size POPULATION_SIZE
+        self.rawData = data;
 
-    def buildInitialPopulation:
-
-
-    def BuildNewGeneration:
-
-    def selection:
-
-    def crossOver:
-
-    def mutation:
+        self.buildInitialPopulation();
