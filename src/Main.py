@@ -1,4 +1,3 @@
-from Locale import Locale;
 from GeneticAlgorithm import GeneticAlgorithm;
 import csv;
 

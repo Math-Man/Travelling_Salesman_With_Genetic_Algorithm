@@ -23,11 +23,13 @@ class Agent:
 
         #add return distance
         sum = sum + int(self.getDistance(self.localeSequence[len(self.localeSequence) - 1], self.localeSequence[0], data));
+        self.distanceTravelled = sum;
+
 
         #sum needs to be low for a higher fitness(score)
         # 1/sum^2 => higher sum => lower score
-        print(sum);
-        self.score = (1 / math.pow(sum,2));
+        #print(sum);
+        self.score = (1 / (math.pow(sum,2)));
 
         return self.score;
 

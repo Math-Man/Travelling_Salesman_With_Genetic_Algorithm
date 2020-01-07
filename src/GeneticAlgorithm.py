@@ -1,5 +1,7 @@
 from Agent import Agent;
 from Agent import RandomAgentBuilder;
+import math;
+import random;
 
 class GeneticAlgorithm:
 
@@ -50,28 +52,100 @@ class GeneticAlgorithm:
 
     #builds nextGeneration
     def BuildNextGeneration(self):
-        self.selection();
-        self.crossOver();
+        listOfPairs = self.selection();
+        self.crossOver(listOfPairs);
         self.mutation();
         return;
 
     #weighted random selection alghorithm depending on the score of the agents
     def selection(self):
-        #print(self.currentGeneration[0].localeSequence)
-        print(self.currentGeneration[0].calculateScore(self.rawData));
-        return;
+        #Calculate scores
+        scoreSum = 0;
+        scores = [0]*self.POPULATION_SIZE;
+        for i in range(0,self.POPULATION_SIZE):
+            scores[i] = self.currentGeneration[i].calculateScore(self.rawData);
+            scoreSum = scoreSum + scores[i];
+        #translate values to range between: (0,POPULATION_SIZE/100)
+        currentMax = max(scores);
+        currentMin = min(scores);
 
-    def crossOver(self):
-        return;
+        summ = 0;
+        for i in range(0,self.POPULATION_SIZE):
+            scores[i] = (scores[i]/scoreSum) * 100;
+            summ = summ + scores[i];
+        #add division fault to first score to make the selection algorithm work properly (usually has very low significance has no effect on algorithm)
+        scores[0] = scores[0] + (100 - summ);
+
+        #apply weighted random selection, create a list of pairs and return it
+        listOfPairs = [0]*self.POPULATION_SIZE;
+
+        for i in range(0,self.POPULATION_SIZE):
+            tempScores = scores.copy();
+            parent1SelectionIndex = self.weightedRandomSelect(tempScores);
+            parent1 = self.currentGeneration[parent1SelectionIndex];
+
+            #remove selected index from tempScores so its not selected twice
+            tempScores.pop(parent1SelectionIndex);
+            parent2 = self.currentGeneration[self.weightedRandomSelect(tempScores)];
+
+            listOfPairs[i] = (parent1, parent2);
+
+        return listOfPairs;
+
+    #returns index of selected element for values that total upto 100
+    def weightedRandomSelect(self,list):
+
+        target  = random.random()*100;
+        total = 0;
+        currentItem = 0.0;
+        for i in range(0,len(list)):
+            currentItem = list[i];
+            if target > total and target <= (total + currentItem):
+                return i;
+            total = total + currentItem;
+        return -1;
+
+
+
+
+    def crossOver(self, listOfPairs):
+
+        #select genes for each pair and create a new agent
+        for i in range(len(listOfPairs)):
+
+            #build a new sequence from parent sequences
+            parent1 = listOfPairs[i][0];
+            parent2 = listOfPairs[i][1];
+            DNALength = len(parent1.localeSequence);
+
+            print(parent1.localeSequence);
+            print(parent2.localeSequence);
+            #create child agent
+            child = Agent(DNALength);
+            child.localeSequence = parent1.localeSequence;
+
+            #apply corssover
+            for k in range(DNALength):
+                if(random.random() >= self.CROSSOVER_CHANCE):
+                    #pick from the sequence of second parent
+                    #print("crossOver "+ str(k));
+                    child.localeSequence[k] = parent2.localeSequence[k];
+                #print("NO crossOver " + str(k));
+
+            #add new child to newGenerations list
+            self.newGeneration[i] = child;
+            print(child.localeSequence);
+        return self.newGeneration;
+
 
     def mutation(self):
         return;
+
 
     def replaceCurrentGeneration(self):
         self.currentGeneration = self.newGeneration;
         self.newGeneration = [0]*self.POPULATION_SIZE;
         return;
-
 
     #entry
     def __init__(self, data):
