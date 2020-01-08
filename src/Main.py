@@ -58,7 +58,7 @@ def geneticAlgMenuLoop(dataset):
                 genAlg.replaceCurrentGeneration();
 
         elif InMenu == 'bests':
-            for i in range(0, len(bestInGenerations)):
+            for i in range(0, len(genAlg.bestInGenerations)):
                 print("Score: " + str( genAlg.bestInGenerations[i].score));
                 print("Distance Travelled: " +  str(genAlg.bestInGenerations[i].distanceTravelled));
                 print("Sequence: " +  str(genAlg.bestInGenerations[i].localeSequence));
